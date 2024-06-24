@@ -1,3 +1,4 @@
+import DVD.DVDPanel;
 import Movement_along_the_contour.RoundPanel;
 
 import javax.swing.*;
@@ -8,7 +9,8 @@ public class MyFrame extends JFrame {
         super("MyGUI");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setDefaultLookAndFeelDecorated(true);
-        RoundPanel panel = new RoundPanel();
+//        RoundPanel panel = new RoundPanel();
+        DVDPanel panel = new DVDPanel();
         Container container = getContentPane();
         container.add(panel);
         setBounds( 500, 200, 500, 500);
