@@ -10,7 +10,7 @@ public class MyFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setDefaultLookAndFeelDecorated(true);
 //        RoundPanel panel = new RoundPanel();
-        DVDPanel panel = new DVDPanel();
+        DVDPanel panel = new DVDPanel(); // Лейбл DVD
         Container container = getContentPane();
         container.add(panel);
         setBounds( 500, 200, 500, 500);
