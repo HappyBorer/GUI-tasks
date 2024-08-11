@@ -15,7 +15,7 @@ public class MyFrame extends JFrame {
         EarthAndSun panel = new EarthAndSun(); // Земля и солнце
         Container container = getContentPane();
         container.add(panel);
-        setBounds( 500, 200, 500, 500);
+        setBounds( 300, 70, 700, 700);
         setVisible(true);
     }
 }
