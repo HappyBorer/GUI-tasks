@@ -1,6 +1,7 @@
 import DVD.DVDPanel;
 import Earth.EarthAndSun;
 import Movement_along_the_contour.RoundPanel;
+import Race.Race;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,10 +13,11 @@ public class MyFrame extends JFrame {
         setDefaultLookAndFeelDecorated(true);
 //        RoundPanel panel = new RoundPanel();
 //        DVDPanel panel = new DVDPanel(); // Лейбл DVD
-        EarthAndSun panel = new EarthAndSun(); // Земля и солнце
+//        EarthAndSun panel = new EarthAndSun(); // Земля и солнце
+        Race panel = new Race();
         Container container = getContentPane();
         container.add(panel);
-        setBounds( 300, 70, 700, 700);
+        setBounds( 300, 70, 500, 500);
         setVisible(true);
     }
 }
