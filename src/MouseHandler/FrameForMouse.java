@@ -20,6 +20,7 @@ public class FrameForMouse extends JFrame implements MouseListener {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(dimension.width / 2 - 400, dimension.height / 2 - 300, 800, 600);
         addMouseListener(this);
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
         revalidate();
         setVisible(true);
     }
