@@ -8,11 +8,12 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 public class FrameForMouse extends JFrame implements MouseListener, MouseMotionListener {
-    private MyString lab;
+
     private int x = 0, y = 0, b = 0;
     private boolean isDrag;
     private MyString objDrag;
-    protected ArrayList<MyString> obj;
+    private ArrayList<MyString> obj;
+
 
     FrameForMouse() {
         super("Mouse handler");
@@ -31,9 +32,12 @@ public class FrameForMouse extends JFrame implements MouseListener, MouseMotionL
 
     public void paint(Graphics g) {
         super.paint(g);
-        for (int i = 0; i < obj.size(); i++) {
-            g.drawString(obj.get(i).getStr(), obj.get(i).getX(), obj.get(i).getY());
+        if(!obj.isEmpty()){
+            for(int i = 0; i < obj.size(); i++){
+                obj.get(i).draw(g);
+            }
         }
+
     }
 
     @Override
@@ -42,8 +46,8 @@ public class FrameForMouse extends JFrame implements MouseListener, MouseMotionL
         y = e.getY();
         b = e.getButton();
         if (b == 1) {
-            lab = new MyString("x:" + x + " y:" + y, x, y);
-            obj.add(lab);
+            obj.add( new MyString("x:" + x + " y:" + y, x, y));
+
             repaint();
         }
         if (b == 2) {
@@ -53,6 +57,7 @@ public class FrameForMouse extends JFrame implements MouseListener, MouseMotionL
                     if (obj.get(i).getX() <= x && obj.get(i).getMaxX() >= x
                             && obj.get(i).getY() >= y && obj.get(i).getMaxY() <= y) {
                         obj.remove(i);
+
                         break;
                     }
                 }
@@ -63,15 +68,14 @@ public class FrameForMouse extends JFrame implements MouseListener, MouseMotionL
 
     @Override
     public void mousePressed(MouseEvent e) {
-        int but = e.getButton();
-        if (but == 3) {
-            isDrag = true;
+        b = e.getButton();
+        if (b == 3) {
             if (!obj.isEmpty()) {
-                for (int i = 0; i < obj.size(); i++) {
+                for (int i = 0; i < obj.size() && !isDrag; i++) {
                     if (obj.get(i).getX() <= x && obj.get(i).getMaxX() >= x
                             && obj.get(i).getY() >= y && obj.get(i).getMaxY() <= y) {
                         objDrag = obj.get(i);
-                        break;
+                        isDrag = true;
                     }
                 }
             }
@@ -99,7 +103,7 @@ public class FrameForMouse extends JFrame implements MouseListener, MouseMotionL
         int x = e.getX();
         int y = e.getY();
 
-        if (isDrag && objDrag != null) {
+        if (isDrag) {
             objDrag.setX(x);
             objDrag.setY(y);
             repaint();
@@ -112,47 +116,51 @@ public class FrameForMouse extends JFrame implements MouseListener, MouseMotionL
 
     }
 
-protected class MyString {
-    String str;
-    int x, y, maxX, maxY;
+    protected class MyString {
+        String str;
+        int x, y, maxX, maxY;
 
-    MyString(String str, int x, int y) {
-        this.str = str;
-        this.x = x;
-        this.y = y;
-        maxX = this.x + str.length() * 10;
-        maxY = this.y - 20;
+        MyString(String str, int x, int y) {
+            this.str = str;
+            this.x = x;
+            this.y = y;
+            maxX = this.x + str.length() * 10;
+            maxY = this.y - 20;
+        }
+
+
+        public String getStr() {
+            return str;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+            maxX = this.x + str.length() * 10;
+        }
+        public void draw(Graphics g){
+            Graphics2D d2 = (Graphics2D)g;
+            d2.drawString(str, x, y);
+        }
+
+        public void setY(int y) {
+            this.y = y;
+            maxY = this.y - 20;
+        }
+
+        public int getMaxX() {
+            return maxX;
+        }
+
+        public int getMaxY() {
+            return maxY;
+        }
     }
-
-
-    public String getStr() {
-        return str;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-        maxX = this.x + str.length() * 10;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-        maxY = this.y - 20;
-    }
-
-    public int getMaxX() {
-        return maxX;
-    }
-
-    public int getMaxY() {
-        return maxY;
-    }
-}
 }
