@@ -13,6 +13,7 @@ public class FrameForOption extends JFrame {
         Container container = getContentPane();
         PaneFromButton pane = new PaneFromButton();
         container.add(pane);
+        addKeyListener(pane);
         setVisible(true);
     }
 
