@@ -13,8 +13,9 @@ public class PaneFromButton extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            JOptionPane.showMessageDialog(this, "My name", "Massage",
-                    JOptionPane.INFORMATION_MESSAGE);
+            String name = JOptionPane.showInputDialog(this, "My name", "Massage",
+                    JOptionPane.QUESTION_MESSAGE);
+            JOptionPane.showMessageDialog(this, name, "you name", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
