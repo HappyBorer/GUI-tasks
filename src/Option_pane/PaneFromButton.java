@@ -4,6 +4,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class PaneFromButton extends JPanel implements KeyListener {
+    PaneFromButton(){
+        System.out.println(JOptionPane.showConfirmDialog(this, "Hi! Do you want to register?", "welcome", JOptionPane.YES_NO_OPTION));
+        System.out.println(JOptionPane.showInputDialog(this, null, "Login", JOptionPane.INFORMATION_MESSAGE));
+        JPasswordField passwordField = new JPasswordField();
+        System.out.println(JOptionPane.showConfirmDialog(this, passwordField, "Password", JOptionPane.YES_NO_OPTION));
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
