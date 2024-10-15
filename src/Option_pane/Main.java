@@ -39,7 +39,7 @@ public class Main {
 
             new FrameForOption(width, height);
         }catch (NullPointerException ex){
-
+            ex.printStackTrace();
         }
 
     }
