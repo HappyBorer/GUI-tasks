@@ -1,16 +1,32 @@
 package Option_pane;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Main {
     private static int width, height;
 
     public static void main(String[] args) {
-        Object[] resolutions = {"800x600", "1024x768", "1200x600", "1280x1024", "1680x1050", "1920x1080"};
-        String resolution = (String) JOptionPane.showInputDialog(null, "You select the screen resolution",
-                "Screen resolution", JOptionPane.QUESTION_MESSAGE, null, resolutions, "800x600");
+        JRadioButton[] resolutions = {new JRadioButton("800x600", true),
+                new JRadioButton("1024x768", false), new JRadioButton("1200x600", false),
+                new JRadioButton("1280x1024", false), new JRadioButton("1680x1050", false),
+                new JRadioButton("1920x1080", false)};
+        JPanel panel = new JPanel(new GridLayout(0, 1, 0, 5));
+        ButtonGroup group = new ButtonGroup();
+        for (JRadioButton resolution : resolutions) {
+            group.add(resolution);
+            panel.add(resolution);
+        }
+        JOptionPane.showMessageDialog(null, panel,
+                "Screen resolution", JOptionPane.QUESTION_MESSAGE);
+        String select = "";
+        for(JRadioButton radioButton : resolutions) {
+            if(radioButton.isSelected()) {
+                select = radioButton.getText();
+            }
+        }
         try {
-            switch (resolution) {
+            switch (select) {
                 case "800x600" -> {
                     width = 800;
                     height = 600;
