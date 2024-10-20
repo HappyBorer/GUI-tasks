@@ -11,7 +11,8 @@ public class FrameForWidgets extends JFrame {
         setDefaultLookAndFeelDecorated(true);
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(screen.width/2 - width/2, screen.height/2 - height/2, width, height);
-        PanelForWidgets panel = new PanelForWidgets();
+//        PanelForWidgets panel = new PanelForWidgets();
+        PanelForJSpinner panel = new PanelForJSpinner();
         Container container = getContentPane();
         container.add(panel);
         setVisible(true);
