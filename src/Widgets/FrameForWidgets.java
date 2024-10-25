@@ -13,7 +13,8 @@ public class FrameForWidgets extends JFrame {
         setBounds(screen.width/2 - width/2, screen.height/2 - height/2, width, height);
 //        PanelForWidgets panel = new PanelForWidgets();
 //        PanelForJSpinner panel = new PanelForJSpinner();// панель с JSpinner
-        PanelForJComboBox panel = new PanelForJComboBox();
+//        PanelForJComboBox panel = new PanelForJComboBox(); // панель с JComboBox
+        PanelForJRadioButton panel = new PanelForJRadioButton();
         Container container = getContentPane();
         container.add(panel);
         pack();
