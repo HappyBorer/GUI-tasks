@@ -1,12 +1,14 @@
 package Widgets;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PanelForJRadioButton extends JPanel {
     PanelForJRadioButton(){
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton spring = new JRadioButton("Spring");
+        JRadioButton spring = new JRadioButton("Spring", true);
         JRadioButton summer = new JRadioButton("Summer");
         JRadioButton autumn = new JRadioButton("Autumn");
         JRadioButton winter = new JRadioButton("Winter");
@@ -29,5 +31,19 @@ public class PanelForJRadioButton extends JPanel {
         JLabel label = new JLabel("You answer: ");
         add(label);
         label.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(spring.isSelected()){
+                    label.setText("You answer: " + spring.getText());
+                }else if(summer.isSelected()){
+                    label.setText("You answer: " + summer.getText());
+                }else if(autumn.isSelected()){
+                    label.setText("You answer: " + autumn.getText());
+                }else{
+                    label.setText("You answer: " + winter.getText());
+                }
+            }
+        });
     }
 }
