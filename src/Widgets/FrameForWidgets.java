@@ -15,7 +15,8 @@ public class FrameForWidgets extends JFrame {
 //        PanelForJSpinner panel = new PanelForJSpinner();// панель с JSpinner
 //        PanelForJComboBox panel = new PanelForJComboBox(); // панель с JComboBox
 //        PanelForJRadioButton panel = new PanelForJRadioButton(); // панель с JRadioButton
-        PanelForJTextArea panel = new PanelForJTextArea();
+//        PanelForJTextArea panel = new PanelForJTextArea(); // панель с JTextArea
+        PanelForCalculator panel = new PanelForCalculator();
         Container container = getContentPane();
         container.add(panel);
         pack();
