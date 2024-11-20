@@ -16,11 +16,12 @@ public class FrameForWidgets extends JFrame {
 //        PanelForJComboBox panel = new PanelForJComboBox(); // панель с JComboBox
 //        PanelForJRadioButton panel = new PanelForJRadioButton(); // панель с JRadioButton
 //        PanelForJTextArea panel = new PanelForJTextArea(); // панель с JTextArea
-        PanelForCalculator panel = new PanelForCalculator();
+//        PanelForCalculator panel = new PanelForCalculator(); // панель с Calculator
+        PanelForQuiz panel = new PanelForQuiz();
         Container container = getContentPane();
         container.add(panel);
         pack();
-        validate();
+        revalidate();
         setVisible(true);
     }
 }
