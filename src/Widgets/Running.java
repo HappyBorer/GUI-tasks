@@ -1,6 +1,6 @@
 package Widgets;
 
-public class running {
+public class Running {
     public static void main(String[] args) {
         new FrameForWidgets();
     }
