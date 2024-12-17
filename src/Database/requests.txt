@@ -1,0 +1,2 @@
+INSERT INTO genres(id, genre) VALUES(3, "fiction");
+INSERT INTO books VALUES(3, "Thick and thin", 1883, "Anton Chekhov", 3);
