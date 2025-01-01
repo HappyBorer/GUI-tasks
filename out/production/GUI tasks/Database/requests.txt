@@ -1,0 +1,8 @@
+INSERT INTO genres(id, genre) VALUES(3, "fiction");
+INSERT INTO books VALUES(3, "Thick and thin", 1883, "Anton Chekhov", 3);
+
+multiple request:
+INSERT INTO books(id_book, name_book, year_of_release,author, genre_id)
+VALUES(4, "Evgeny Onegin", 1833, "Alexander Pushkin", 1),
+    (5,"The Master and Margarita", 1967,"Mikhail Bulgakov",1),
+    (6,"Lefty", 1881,"Nikolay Leskov",3);
