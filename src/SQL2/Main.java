@@ -73,7 +73,9 @@ public class Main {
 
     public static void main(String[] args) {
         connectionDB();
-        add_all_types(types);
+//        add_all_types(types);
+//        delete_/type(3);
+        update_type(7, "Балинезийская cat");
         closeAll();
     }
 
@@ -121,11 +123,37 @@ public class Main {
         }
     }
 
+    public static void delete_type(int id){
+        try{
+            resSet = statement.executeQuery(String.format("SELECT id FROM types WHERE id=%d",id));
+            if(resSet.next()) {
+                statement.executeUpdate(String.format("DELETE FROM types WHERE id=%d", id));
+            }else{
+                System.out.println("Not id");
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void  update_type(int id, String new_type){
+        try{
+            int check = statement.executeUpdate(String.format("UPDATE types SET type='%s' WHERE id=%d", new_type, id));
+            if(check == 1){
+                System.out.println("update");
+            }else{
+                System.out.println("not exists");
+            }
+        }catch( Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
     public static void closeAll() {
         try {
             con.close();
             statement.close();
-            resSet.close();
+            if(resSet != null) {
+                resSet.close();
+            }
             System.out.println("closed");
         } catch (Exception e) {
             e.printStackTrace();
