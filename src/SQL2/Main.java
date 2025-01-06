@@ -72,91 +72,105 @@ public class Main {
     };
 
     public static void main(String[] args) {
-        connectionDB();
-//        add_all_types(types);
-//        delete_/type(3);
-        update_type(7, "Балинезийская cat");
-        closeAll();
-    }
-
-    public static void connectionDB() {
         try {
-            Class.forName(urlDriverSQLite);
-            con = DriverManager.getConnection(urlDB);
-            statement = con.createStatement();
-            System.out.println("connection");
+            connectionDB();
+//            add_all_types(types);
+//            delete_/type(3);
+//            update_type(7, "Балинезийская cat");
+//            System.out.println(get_type(5));
+//            get_type_where("type LIKE '%а'");
+            get_all_types();
+            closeAll();
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void createTable(String query) {
-        try {
-            statement.execute(query);
-            System.out.println("created");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void insert_type(String type) {
-        try {
-            resSet = statement.executeQuery(String.format("SELECT type FROM types WHERE type = '%s'", type));
-            if (!(resSet.next())) {
-                statement.executeUpdate(String.format("INSERT INTO types(type) VALUES('%s')", type));
-                System.out.println("added a row");
-                statement.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void add_all_types(String[] types) {
-        try {
-            for (String type : types) {
-                insert_type(type);
-            }
-            System.out.println("Everything added");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void delete_type(int id){
-        try{
-            resSet = statement.executeQuery(String.format("SELECT id FROM types WHERE id=%d",id));
-            if(resSet.next()) {
-                statement.executeUpdate(String.format("DELETE FROM types WHERE id=%d", id));
-            }else{
-                System.out.println("Not id");
-            }
-        }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
-    public static void  update_type(int id, String new_type){
-        try{
-            int check = statement.executeUpdate(String.format("UPDATE types SET type='%s' WHERE id=%d", new_type, id));
-            if(check == 1){
-                System.out.println("update");
-            }else{
-                System.out.println("not exists");
-            }
-        }catch( Exception e){
-            System.out.println(e.getMessage());
-        }
+
+    public static void connectionDB() throws ClassNotFoundException, SQLException {
+        Class.forName(urlDriverSQLite);
+        con = DriverManager.getConnection(urlDB);
+        statement = con.createStatement();
+        System.out.println("connection");
     }
-    public static void closeAll() {
-        try {
-            con.close();
+
+    public static void createTable(String query) throws SQLException {
+        statement.execute(query);
+        System.out.println("created");
+    }
+
+    public static void insert_type(String type) throws SQLException {
+
+        resSet = statement.executeQuery(String.format("SELECT type FROM types WHERE type = '%s'", type));
+        if (!(resSet.next())) {
+            statement.executeUpdate(String.format("INSERT INTO types(type) VALUES('%s')", type));
+            System.out.println("added a row");
             statement.close();
-            if(resSet != null) {
-                resSet.close();
-            }
-            System.out.println("closed");
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
+    }
+
+    public static void add_all_types(String[] types) throws SQLException {
+
+        for (String type : types) {
+            insert_type(type);
+        }
+        System.out.println("Everything added");
+
+    }
+
+    public static void delete_type(int id) throws SQLException {
+
+        resSet = statement.executeQuery(String.format("SELECT id FROM types WHERE id=%d", id));
+        if (resSet.next()) {
+            statement.executeUpdate(String.format("DELETE FROM types WHERE id=%d", id));
+        } else {
+            System.out.println("Not id");
+        }
+
+    }
+
+    public static void update_type(int id, String new_type) throws SQLException {
+
+        int check = statement.executeUpdate(String.format("UPDATE types SET type='%s' WHERE id=%d", new_type, id));
+        if (check == 1) {
+            System.out.println("update");
+        } else {
+            System.out.println("not exists");
+        }
+
+    }
+
+    public static String get_type(int id) throws SQLException {
+        resSet = statement.executeQuery(String.format("SELECT type FROM types WHERE id=%d",id));
+        if(resSet.next()){
+            return resSet.getString("type");
+        }else{
+            return "ID does not exists";
+        }
+    }
+
+    public static void get_type_where(String where) throws SQLException{
+        resSet = statement.executeQuery(String.format("SELECT id, type FROM types WHERE %s", where));
+        while(resSet.next()){
+            System.out.printf("%d - %s;%n", resSet.getInt(1), resSet.getString(2));
+        }
+    }
+
+    public static void get_all_types() throws SQLException{
+        resSet = statement.executeQuery("SELECT id, type FROM types");
+        while(resSet.next()){
+            System.out.printf("%d - %s;%n", resSet.getInt(1), resSet.getString(2));
+        }
+    }
+
+    public static void closeAll() throws SQLException {
+
+        con.close();
+        statement.close();
+        if (resSet != null) {
+            resSet.close();
+        }
+        System.out.println("closed");
+
     }
 }
