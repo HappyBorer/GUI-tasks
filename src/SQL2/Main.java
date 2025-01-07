@@ -79,10 +79,18 @@ public class Main {
 //            update_type(7, "Балинезийская cat");
 //            System.out.println(get_type(5));
 //            get_type_where("type LIKE '%а'");
-            get_all_types();
+//            get_all_types();
+            createTable("CREATE TABLE IF NOT exists cats(" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "name VARCHAR(20) NOT NULL, " +
+                    "type_id INTEGER NOT NULL, " +
+                    "age INTEGER NOT NULL, " +
+                    "weight DOUBLE, " +
+                    "CONSTRAINT name_unique UNIQUE(id), " +
+                    "FOREIGN KEY (type_id)  REFERENCES types (id))");
             closeAll();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());;
         }
     }
 
