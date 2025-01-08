@@ -80,17 +80,21 @@ public class Main {
 //            System.out.println(get_type(5));
 //            get_type_where("type LIKE '%а'");
 //            get_all_types();
-            createTable("CREATE TABLE IF NOT exists cats(" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "name VARCHAR(20) NOT NULL, " +
-                    "type_id INTEGER NOT NULL, " +
-                    "age INTEGER NOT NULL, " +
-                    "weight DOUBLE, " +
-                    "CONSTRAINT name_unique UNIQUE(id), " +
-                    "FOREIGN KEY (type_id)  REFERENCES types (id))");
+//            createTable("CREATE TABLE IF NOT exists cats(" +
+//                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                    "name VARCHAR(20) NOT NULL, " +
+//                    "type_id INTEGER NOT NULL, " +
+//                    "age INTEGER NOT NULL, " +
+//                    "weight DOUBLE, " +
+//                    "CONSTRAINT name_unique UNIQUE(id), " +
+//                    "FOREIGN KEY (type_id)  REFERENCES types (id))");
+            insert_cat("Kis", "Камышовый кот", 2, 10.5);
+            insert_cat("Tom", "Американская жесткошерстная", 1, 12.3);
+            insert_cat("Bats", "Мейн-ку́н", 4, 15.8);
             closeAll();
         } catch (Exception e) {
-            System.out.println(e.getMessage());;
+            e.printStackTrace();
+
         }
     }
 
@@ -114,6 +118,18 @@ public class Main {
             System.out.println("added a row");
             statement.close();
         }
+
+    }
+
+    public static void insert_cat(String name, String type, int age, Double weight) throws SQLException {
+        resSet = statement.executeQuery(String.format("SELECT id FROM types WHERE type='%s'", type));
+        if (!(resSet.next())) {
+            insert_type(type);
+            resSet = statement.executeQuery(String.format("SELECT id FROM types WHERE type='%s'", type));
+        }
+        int id = resSet.getInt("id");
+        statement.executeUpdate(String.format("INSERT INTO cats(name, type_id, age, weight) " +
+                "VALUES('%s', '%d', '%d', '%f')", name, id, age, weight));
 
     }
 
@@ -149,24 +165,24 @@ public class Main {
     }
 
     public static String get_type(int id) throws SQLException {
-        resSet = statement.executeQuery(String.format("SELECT type FROM types WHERE id=%d",id));
-        if(resSet.next()){
+        resSet = statement.executeQuery(String.format("SELECT type FROM types WHERE id=%d", id));
+        if (resSet.next()) {
             return resSet.getString("type");
-        }else{
+        } else {
             return "ID does not exists";
         }
     }
 
-    public static void get_type_where(String where) throws SQLException{
+    public static void get_type_where(String where) throws SQLException {
         resSet = statement.executeQuery(String.format("SELECT id, type FROM types WHERE %s", where));
-        while(resSet.next()){
+        while (resSet.next()) {
             System.out.printf("%d - %s;%n", resSet.getInt(1), resSet.getString(2));
         }
     }
 
-    public static void get_all_types() throws SQLException{
+    public static void get_all_types() throws SQLException {
         resSet = statement.executeQuery("SELECT id, type FROM types");
-        while(resSet.next()){
+        while (resSet.next()) {
             System.out.printf("%d - %s;%n", resSet.getInt(1), resSet.getString(2));
         }
     }
