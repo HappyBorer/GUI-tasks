@@ -5,7 +5,7 @@ import java.sql.*;
 public class Main {
     private static Statement statement;
     private static String urlDriverSQLite = "org.sqlite.JDBC";
-    private static String urlDB = "jdbc:sqlite:F:\\курс разработчик\\курс java\\GUI-tasks\\src\\SQL2\\My_cats.db";
+    private static String urlDB = "jdbc:sqlite:D:\\java developer\\GUI tasks\\src\\SQL2\\My_cats.db";
     private static Connection con;
     private static ResultSet resSet;
     private static String[] types = new String[]{"Абиссинская кошка",
@@ -211,8 +211,7 @@ public class Main {
 //            insert_cat("Kis", "Камышовый кот", 2, 10.5);
 //            insert_cat("Tom", "Американская жесткошерстная", 1, 12.3);
 //            insert_cat("Bats", "Мейн-ку́н", 4, 15.8);
-            System.out.println(types.length);
-            System.out.println(names.length);
+            add_more_cats(5000);
             closeAll();
         } catch (Exception e) {
             e.printStackTrace();
@@ -255,9 +254,15 @@ public class Main {
 
     }
 
-    public static void  add_more_cats(int n){
-        int typeFromTypes = (int)(Math.random() * types.length);
-        int nameFromNames = (int)(Math.random() * names.length);
+    public static void  add_more_cats(int n) throws SQLException{
+        for(int i = 0; i < n; i++) {
+            int typeFromTypes = (int) (Math.random() * types.length);
+            int nameFromNames = (int) (Math.random() * names.length);
+            int age = (int) (Math.random() * 17);
+            double weight = Math.random() * 12;
+            insert_cat(names[nameFromNames], types[typeFromTypes], age, weight);
+        }
+        System.out.printf("added %d cats!\n", n);
     }
 
     public static void add_all_types(String[] types) throws SQLException {
