@@ -211,7 +211,10 @@ public class Main {
 //            insert_cat("Kis", "Камышовый кот", 2, 10.5);
 //            insert_cat("Tom", "Американская жесткошерстная", 1, 12.3);
 //            insert_cat("Bats", "Мейн-ку́н", 4, 15.8);
-            add_more_cats(5000);
+//            add_more_cats(5000);
+//            delete_cat(3);
+//            delete_cat("id=10 AND name='Фасолька'");
+            update_cat(12, "name='Фасолька'", "age=10");
             closeAll();
         } catch (Exception e) {
             e.printStackTrace();
@@ -264,7 +267,37 @@ public class Main {
         }
         System.out.printf("added %d cats!\n", n);
     }
-
+    // удаление котика по id
+    public static void delete_cat(int id) throws SQLException{
+        resSet = statement.executeQuery(String.format("SELECT id FROM cats WHERE id=%d", id));
+        if(resSet.next()){
+            statement.executeUpdate(String.format("DELETE FROM cats WHERE id=%d", id));
+            System.out.printf("The cat was deleted with id = %d\n", id);
+        }else {
+            System.out.printf("The cat is not with id = %d\n", id);
+        }
+    }
+    // удаление котика по условию
+    public static void delete_cat(String where) throws SQLException{
+        resSet = statement.executeQuery(String.format("SELECT id FROM cats WHERE %s", where));
+        if(resSet.next()){
+            delete_cat(resSet.getInt("id"));
+        } else {
+            System.out.println("The cat did not find\n");
+        }
+    }
+    // изменение котика заданным образом по заданному критерию
+    public static void update_cat(int id, String set, String where) throws SQLException{
+        resSet = statement.executeQuery(String.format("SELECT id FROM cats WHERE %s", where));
+        while(resSet.next()){
+            if(resSet.getInt("id") == id){
+                statement.executeUpdate(String.format("UPDATE cats SET %s WHERE id=%d", set, id));
+                System.out.println("Update");
+                return;
+            }
+        }
+        System.out.println("Not update");
+    }
     public static void add_all_types(String[] types) throws SQLException {
 
         for (String type : types) {
