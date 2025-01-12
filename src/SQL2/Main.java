@@ -214,7 +214,10 @@ public class Main {
 //            add_more_cats(5000);
 //            delete_cat(3);
 //            delete_cat("id=10 AND name='Фасолька'");
-            update_cat(12, "name='Фасолька'", "age=10");
+//            update_cat(12, "name='Фасолька'", "age=10");
+//            System.out.println(get_cat(11));
+//            get_cat_where("id<10");
+            get_all_cats();
             closeAll();
         } catch (Exception e) {
             e.printStackTrace();
@@ -257,8 +260,8 @@ public class Main {
 
     }
 
-    public static void  add_more_cats(int n) throws SQLException{
-        for(int i = 0; i < n; i++) {
+    public static void add_more_cats(int n) throws SQLException {
+        for (int i = 0; i < n; i++) {
             int typeFromTypes = (int) (Math.random() * types.length);
             int nameFromNames = (int) (Math.random() * names.length);
             int age = (int) (Math.random() * 17);
@@ -267,30 +270,33 @@ public class Main {
         }
         System.out.printf("added %d cats!\n", n);
     }
+
     // удаление котика по id
-    public static void delete_cat(int id) throws SQLException{
+    public static void delete_cat(int id) throws SQLException {
         resSet = statement.executeQuery(String.format("SELECT id FROM cats WHERE id=%d", id));
-        if(resSet.next()){
+        if (resSet.next()) {
             statement.executeUpdate(String.format("DELETE FROM cats WHERE id=%d", id));
             System.out.printf("The cat was deleted with id = %d\n", id);
-        }else {
+        } else {
             System.out.printf("The cat is not with id = %d\n", id);
         }
     }
+
     // удаление котика по условию
-    public static void delete_cat(String where) throws SQLException{
+    public static void delete_cat(String where) throws SQLException {
         resSet = statement.executeQuery(String.format("SELECT id FROM cats WHERE %s", where));
-        if(resSet.next()){
+        if (resSet.next()) {
             delete_cat(resSet.getInt("id"));
         } else {
             System.out.println("The cat did not find\n");
         }
     }
+
     // изменение котика заданным образом по заданному критерию
-    public static void update_cat(int id, String set, String where) throws SQLException{
+    public static void update_cat(int id, String set, String where) throws SQLException {
         resSet = statement.executeQuery(String.format("SELECT id FROM cats WHERE %s", where));
-        while(resSet.next()){
-            if(resSet.getInt("id") == id){
+        while (resSet.next()) {
+            if (resSet.getInt("id") == id) {
                 statement.executeUpdate(String.format("UPDATE cats SET %s WHERE id=%d", set, id));
                 System.out.println("Update");
                 return;
@@ -298,6 +304,52 @@ public class Main {
         }
         System.out.println("Not update");
     }
+
+    // возвращает котика по переданному id
+
+    public static String get_cat(int id) throws SQLException {
+        resSet = statement.executeQuery(String.format("SELECT * FROM cats WHERE id=%d", id));
+        if (resSet.next()) {
+            String name = resSet.getString("name");
+            int age = resSet.getInt("age");
+            double weight = resSet.getDouble("weight");
+            String type = get_type(resSet.getInt("type_id"));
+            return String.format("ID: %d\nName: %s\nType: %s\nAge: %d\nWeight: %.2f", id, name, type, age, weight);
+        }
+        return "The cat absent";
+    }
+
+    // печатает на экран всех котиков, которые подходят под запрос where
+
+    public static void get_cat_where(String where) throws SQLException {
+        Statement st = con.createStatement();
+        ResultSet resultS = st.executeQuery(String.format("SELECT * FROM cats WHERE %s", where));
+
+        if (resultS == null) {
+            System.out.println("Not found cats");
+            return;
+        }
+        while (resultS.next()) {
+            System.out.println(get_cat(resultS.getInt("id")));
+        }
+        st.close();
+        resultS.close();
+    }
+
+    // печатает всех котиков
+
+    public static void get_all_cats() throws SQLException {
+        Statement st = con.createStatement();
+        ResultSet resultSet = st.executeQuery("SELECT id FROM cats");
+
+        while (resultSet.next()) {
+            System.out.println(get_cat(resultSet.getInt("id")));
+        }
+        st.close();
+        resultSet.close();
+    }
+
+
     public static void add_all_types(String[] types) throws SQLException {
 
         for (String type : types) {
